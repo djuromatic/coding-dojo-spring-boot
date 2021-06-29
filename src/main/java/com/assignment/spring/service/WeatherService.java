@@ -18,7 +18,7 @@ public class WeatherService {
     @Autowired
     private WeatherRepository weatherRepository;
 
-    public WeatherEntity getWeatherByCity(String city){
+    public WeatherEntity getWeatherByCity(String city) {
         String url = Constants.WEATHER_API_URL.replace("{city}", city).replace("{appid}", Constants.APP_ID);
         ResponseEntity<WeatherResponse> response = restTemplate.getForEntity(url, WeatherResponse.class);
         return mapper(response.getBody());

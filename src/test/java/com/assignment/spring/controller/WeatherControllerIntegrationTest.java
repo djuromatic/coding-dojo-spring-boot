@@ -1,7 +1,6 @@
 package com.assignment.spring.controller;
 
 import com.assignment.spring.entity.WeatherEntity;
-import com.assignment.spring.service.WeatherService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
