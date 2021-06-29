@@ -11,9 +11,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(WeatherController.class)
 public class WeatherControllerTest {
@@ -25,14 +27,14 @@ public class WeatherControllerTest {
     private MockMvc mvc;
 
     @Test
-    public void getWeatherShouldReturnResoult() throws Exception {
+    public void getWeatherShouldReturnResult() throws Exception {
         WeatherEntity weatherEntity = new WeatherEntity();
         weatherEntity.setId(1);
         weatherEntity.setCity("Belgrade");
         weatherEntity.setCountry("RS");
         weatherEntity.setTemperature(100.0);
 
-        doReturn(weatherEntity).when(service).getWeatherByCity("belgrade");
+        when(service.getWeatherByCity(anyString())).thenReturn(weatherEntity);
 
         mvc.perform(MockMvcRequestBuilders.get("/weather?city=belgrade"))
                 .andExpect(status().isOk())

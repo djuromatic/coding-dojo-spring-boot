@@ -1,7 +1,7 @@
 package com.assignment.spring.repository;
 
 import com.assignment.spring.entity.WeatherEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface WeatherRepository extends CrudRepository<WeatherEntity, Integer> {
+public interface WeatherRepository extends JpaRepository<WeatherEntity, Integer> {
 }
