@@ -34,6 +34,7 @@ public class WeatherControllerIntegrationTest {
                 .map(x -> testRestTemplate.getForObject(urlBuilder(uri + x), WeatherEntity.class))
                 .map(x -> x.getId())
                 .collect(Collectors.toList());
+        Assertions.assertNotNull(createdIds);
     }
 
     @Test
