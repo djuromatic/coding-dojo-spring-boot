@@ -6,6 +6,7 @@ import com.assignment.spring.api.WeatherResponse;
 import com.assignment.spring.entity.WeatherEntity;
 import com.assignment.spring.repository.WeatherRepository;
 import com.assignment.spring.service.WeatherService;
+import javassist.NotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,7 +42,7 @@ public class WeatherServiceTest {
     private WeatherService service;
 
     @Test
-    public void shouldReturnWeatherEntity() {
+    public void shouldReturnWeatherEntity() throws NotFoundException {
         WeatherEntity weatherEntity = new WeatherEntity();
         weatherEntity.setCity(CITY);
         WeatherResponse response = new WeatherResponse();

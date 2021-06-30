@@ -37,6 +37,24 @@ public class WeatherControllerIntegrationTest {
     }
 
     @Test
+    public void shouldThrowNotFoundException() {
+        String uri = "/weather?city=test";
+        Exception exception = testRestTemplate.getForObject(urlBuilder(uri), Exception.class);
+        String expectedMessage = "City not found: test";
+        String actualMessage = exception.getMessage();
+        Assertions.assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    public void shouldThrowBadRequestException() {
+        String uri = "/weather?city=";
+        Exception exception = testRestTemplate.getForObject(urlBuilder(uri), Exception.class);
+        String expectedMessage = "City should not be empty";
+        String actualMessage = exception.getMessage();
+        Assertions.assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
     public void shouldExistInDataSource() {
         String uri = "/report/" + createdIds.get(0);
         WeatherEntity response = testRestTemplate.getForObject(urlBuilder(uri), WeatherEntity.class);
