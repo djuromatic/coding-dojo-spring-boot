@@ -6,8 +6,10 @@ services:
       context: .
     ports:
       - "8080:8080"
+    env_file:
+      - spring.env
     volumes:
-      - ../:/usr/src/maven
+      - ./:/usr/src/maven
     depends_on:
       - "database"
   database:
