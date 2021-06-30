@@ -1,7 +1,17 @@
 version: '3'
 services:
+  spring-boot:
+    image: springci/spring-boot-ci-image
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../:/usr/src/maven
+    depends_on:
+      - "database"
   database:
-    image: "postgres" # use latest official postgres version
+    image: "postgres"
     ports:
       - "5432:5432"
     env_file:
@@ -9,4 +19,4 @@ services:
     volumes:
       - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
 volumes:
-  database-data: # named volumes can be managed easier using docker-compose
+  database-data:
