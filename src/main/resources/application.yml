@@ -1,23 +1,9 @@
 spring:
+  profiles:
+    default: dev
+    active: ${SPRING_ACTIVE_PROFILE}
   server:
     port: 8080
-    # Database
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${DB_HOSTNAME}:${DB_PORT}/${DB_NAME}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-  # JPA properties
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    properties:
-      hibernate:
-        temp:
-          use_jdbc_metadata_defaults: false
 openweather:
   appid: "5f701b8da7b37714d9898d9f430cc68c"
   apipath: "http://api.openweathermap.org/data/2.5/weather?q={city}&APPID={appid}"
