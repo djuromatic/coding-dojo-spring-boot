@@ -12,11 +12,11 @@ This is a simple application that requests its data from [OpenWeather](https://o
 As the new engineer leading this project, your first task is to make it production-grade, feel free to refactor any piece
 necessary to achieve the goal.
 
-### How to deliver the code
-
-Please send an email containing your solution with a link to a public repository.
-
->**DO NOT create a Pull Request with your solution** 
-
+### Prerequisits
+  * Docker
+  
+### Run prod
+    docker-compose up
+  
 ### Footnote
 It's possible to generate the API key going to the [OpenWeather Sign up](https://openweathermap.org/appid) page.
