@@ -15,7 +15,6 @@ import com.assignment.spring.repository.WeatherInfoRepository;
 import com.assignment.spring.repository.WeatherRepository;
 import com.assignment.spring.repository.WindRepository;
 import com.querydsl.jpa.impl.JPAQuery;
-import org.apache.el.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,6 @@ import org.springframework.web.client.RestTemplate;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -53,7 +51,7 @@ public class WeatherService {
     @Transactional
     public WeatherEntity getWeatherByCity(String city, String unit) throws NotFoundException {
         WeatherEntity response = WeatherMapper.INSTANCE.entity(getWeatherApiResponse(city).getBody());
-        for (WeatherInfoEntity wie: response.getWeatherInfo()) {
+        for (WeatherInfoEntity wie : response.getWeatherInfo()) {
             wie.setWeather(response);
         }
         response.getCoord().setWeather(response);
@@ -69,7 +67,7 @@ public class WeatherService {
         return weatherRepository.findAll();
     }
 
-    public List<WeatherEntity> getByName (String name) {
+    public List<WeatherEntity> getByName(String name) {
         JPAQuery<WeatherEntity> query = new JPAQuery<>(entityManager);
         QWeatherEntity qWeatherEntity = QWeatherEntity.weatherEntity;
         return query
@@ -78,32 +76,32 @@ public class WeatherService {
                 .fetch();
     }
 
-    public ResponseEntity<WeatherResponse> getWeatherApiResponse(String city){
+    public ResponseEntity<WeatherResponse> getWeatherApiResponse(String city) {
         String appid = env.getProperty("openweather.appid");
         String apipath = env.getProperty("openweather.apipath");
         try {
             String url = apipath.replace("{city}", city).replace("{appid}", appid);
             ResponseEntity<WeatherResponse> response = restTemplate.getForEntity(url, WeatherResponse.class);
             return response;
-        }catch (RuntimeException ex) {
+        } catch (RuntimeException ex) {
             throw new NotFoundException("City not found: " + city);
         }
     }
 
-    public WindDto getWindForWeather(Integer id ){
+    public WindDto getWindForWeather(Integer id) {
         Wind wind = windRepository.findByWeatherId(id);
         return WindMapper.INSTANCE.windToDto(wind);
     }
 
-    public List<WeatherInfoDto> getWeatherInfoForWeather (Integer id) {
+    public List<WeatherInfoDto> getWeatherInfoForWeather(Integer id) {
         return WeatherInfoMapper.INSTANCE.weathersToWeathersDto(weatherInfoRepository.findAllByWeatherId(id));
     }
 
-    private WeatherEntity convertTempCelsius(WeatherEntity entity, String unit){
-        if(unit.equals(Units.CELSIUS.getUnit())){
+    private WeatherEntity convertTempCelsius(WeatherEntity entity, String unit) {
+        if (unit.equals(Units.CELSIUS.getUnit())) {
             entity.setUnit(Units.CELSIUS.getUnit());
             entity.setTemperature((double) Math.round((entity.getTemperature() - 32) / 1.8));
-        }else{
+        } else {
             entity.setUnit(Units.FAHRENHEIT.getUnit());
         }
         return entity;

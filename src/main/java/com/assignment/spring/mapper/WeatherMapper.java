@@ -12,6 +12,7 @@ import org.mapstruct.factory.Mappers;
 public interface WeatherMapper {
 
     WeatherMapper INSTANCE = Mappers.getMapper(WeatherMapper.class);
+
     @Mappings({
             @Mapping(source = "name", target = "city"),
             @Mapping(source = "sys.country", target = "country"),

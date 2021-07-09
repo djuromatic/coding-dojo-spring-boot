@@ -4,13 +4,15 @@ import com.assignment.spring.api.WeatherResponse;
 import com.assignment.spring.dto.WeatherInfoDto;
 import com.assignment.spring.dto.WindDto;
 import com.assignment.spring.entity.WeatherEntity;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.Environment;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +36,7 @@ public class WeatherControllerIntegrationTest {
     @BeforeAll
     public void init() {
         String uri = "/weather?city=";
-        List<String> cities = Arrays.asList("beograd","novi sad", "stockholm", "amsterdam");
+        List<String> cities = Arrays.asList("beograd", "novi sad", "stockholm", "amsterdam");
         createdIds = cities.stream()
                 .map(x -> testRestTemplate.getForObject(urlBuilder(uri + x), WeatherEntity.class))
                 .map(x -> x.getId())

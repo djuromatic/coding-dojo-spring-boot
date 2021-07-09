@@ -1,7 +1,5 @@
 package com.assignment.spring.controller;
 
-import java.util.List;
-
 import com.assignment.spring.entity.WeatherEntity;
 import com.assignment.spring.service.WeatherService;
 import org.junit.jupiter.api.Test;
@@ -14,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;

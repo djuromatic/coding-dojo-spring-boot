@@ -23,6 +23,6 @@ public class Wind {
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="WEATHER_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "WEATHER_ID", referencedColumnName = "ID")
     private WeatherEntity weather;
 }

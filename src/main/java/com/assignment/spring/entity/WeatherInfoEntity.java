@@ -23,7 +23,7 @@ public class WeatherInfoEntity {
     private String icon;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="WEATHER_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "WEATHER_ID", referencedColumnName = "ID")
     @JsonIgnore
     private WeatherEntity weather;
 }

@@ -20,7 +20,7 @@ public class Coord {
     private double lat;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="WEATHER_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "WEATHER_ID", referencedColumnName = "ID")
     @JsonIgnore
     private WeatherEntity weather;
 }
