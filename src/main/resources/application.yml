@@ -2,6 +2,10 @@ spring:
   profiles:
     default: dev
     active: ${SPRING_ACTIVE_PROFILE}
+  h2:
+    console:
+      enabled: true
+      path: /h2
   server:
     port: 8080
 openweather:

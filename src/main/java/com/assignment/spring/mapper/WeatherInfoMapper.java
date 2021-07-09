@@ -1,0 +1,27 @@
+package com.assignment.spring.mapper;
+
+import java.util.List;
+
+import com.assignment.spring.dto.WeatherInfoDto;
+import com.assignment.spring.entity.WeatherInfoEntity;
+import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
+
+@Mapper
+public interface WeatherInfoMapper {
+
+    WeatherInfoMapper INSTANCE = Mappers.getMapper(WeatherInfoMapper.class);
+
+    @Mappings({})
+    WeatherInfoDto weatherInfoToDto (WeatherInfoEntity entity);
+    @InheritInverseConfiguration
+    WeatherInfoEntity dtoToWeatherInfo (WeatherInfoDto dto);
+
+
+    @Mappings({})
+    List<WeatherInfoDto> weathersToWeathersDto (List<WeatherInfoEntity> entities);
+    @InheritInverseConfiguration
+    List<WeatherInfoEntity> dtoToEntitis (List<WeatherInfoDto> dto);
+}

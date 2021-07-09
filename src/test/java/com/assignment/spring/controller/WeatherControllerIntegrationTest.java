@@ -1,14 +1,16 @@
 package com.assignment.spring.controller;
 
+import com.assignment.spring.api.WeatherResponse;
+import com.assignment.spring.dto.WeatherInfoDto;
+import com.assignment.spring.dto.WindDto;
 import com.assignment.spring.entity.WeatherEntity;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.Environment;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +24,9 @@ public class WeatherControllerIntegrationTest {
     private int port;
 
     @Autowired
+    private ConfigurableEnvironment env;
+
+    @Autowired
     private TestRestTemplate testRestTemplate;
 
     private List<Integer> createdIds;
@@ -29,7 +34,7 @@ public class WeatherControllerIntegrationTest {
     @BeforeAll
     public void init() {
         String uri = "/weather?city=";
-        List<String> cities = Arrays.asList("beograd", "stockholm", "amsterdam");
+        List<String> cities = Arrays.asList("beograd","novi sad", "stockholm", "amsterdam");
         createdIds = cities.stream()
                 .map(x -> testRestTemplate.getForObject(urlBuilder(uri + x), WeatherEntity.class))
                 .map(x -> x.getId())
@@ -65,10 +70,39 @@ public class WeatherControllerIntegrationTest {
     @Test
     public void shouldGetLIstOfWeatherEntity() {
         List<WeatherEntity> reportList = testRestTemplate.getForObject(urlBuilder("/report"), List.class);
-        Assertions.assertEquals(reportList.size(), createdIds.size());
+        Assertions.assertEquals(createdIds.size(), reportList.size());
+    }
+
+    @Test
+    public void shouldReturnListOfWeatherByCountry() {
+        String uri = "/country?country=RS";
+        List<WeatherEntity> response = testRestTemplate.getForObject(urlBuilder(uri), List.class);
+        Assertions.assertEquals(2, response.size());
+    }
+
+    @Test
+    public void shouldReturnWeatherResponse() {
+        String uri = "/response?city=belgrade";
+        WeatherResponse response = testRestTemplate.getForObject(urlBuilder(uri), WeatherResponse.class);
+        Assertions.assertNotNull(response);
+    }
+
+    @Test
+    public void shouldGetWindForWeatherEntity() {
+        String uri = "/wind?id=";
+        WindDto wind = testRestTemplate.getForObject(urlBuilder(uri + createdIds.get(0).toString()), WindDto.class);
+        Assertions.assertNotNull(wind);
+    }
+
+    @Test
+    public void shouldGetWeatherInfo() {
+        String uri = "/weather-info?id=";
+        List<WeatherInfoDto> response = testRestTemplate.getForObject(urlBuilder(uri + createdIds.get(0).toString()), List.class);
+        Assertions.assertNotNull(response);
     }
 
     private String urlBuilder(String uri) {
         return "http://localhost:" + port + uri;
     }
+
 }

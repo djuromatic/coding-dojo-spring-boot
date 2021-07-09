@@ -1,9 +1,18 @@
 package com.assignment.spring.entity;
 
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "weather")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class WeatherEntity {
 
     @Id
@@ -16,35 +25,21 @@ public class WeatherEntity {
 
     private Double temperature;
 
-    public Integer getId() {
-        return id;
-    }
+    private String unit;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @OneToOne(mappedBy = "weather", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Coord coord;
 
-    public String getCity() {
-        return city;
-    }
+    @OneToMany(mappedBy = "weather", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<WeatherInfoEntity> weatherInfo;
 
-    public void setCity(String city) {
+    @OneToOne(mappedBy = "weather", cascade = CascadeType.ALL)
+    private Wind wind;
+
+    public WeatherEntity(String city, String country, Double temperature, String unit) {
         this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
         this.country = country;
-    }
-
-    public Double getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(Double temperature) {
         this.temperature = temperature;
+        this.unit = unit;
     }
 }

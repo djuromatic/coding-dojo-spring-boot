@@ -4,19 +4,14 @@ datasource:
     username: sa
     password:
     driverClassName: org.h2.Driver
-  #h2
-  h2:
-    console:
-      enabled: true
-      path: /h2
   # JPA properties
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
 openweather:
   appid: "5f701b8da7b37714d9898d9f430cc68c"
   apipath: "http://api.openweathermap.org/data/2.5/weather?q={city}&APPID={appid}"
+
 
 

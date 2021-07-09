@@ -41,8 +41,6 @@ public class WeatherResponse {
     private Integer dt;
     @JsonProperty("sys")
     private Sys sys;
-    @JsonProperty("id")
-    private Integer id;
     @JsonProperty("name")
     private String name;
     @JsonProperty("cod")
@@ -138,16 +136,6 @@ public class WeatherResponse {
     @JsonProperty("sys")
     public void setSys(Sys sys) {
         this.sys = sys;
-    }
-
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     @JsonProperty("name")
