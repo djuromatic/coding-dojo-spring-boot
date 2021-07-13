@@ -35,12 +35,12 @@ public class WeatherServiceTest {
 
     public final static String CITY = "test";
     public static final String COUNTRY = "RS";
-    public static final double TEMP = 100.0;
+    public static final double TEMP = 300.0;
     public static final List<WeatherEntity> WEATHER_ENTITIES = Arrays
             .asList(
-                    new WeatherEntity("Novi Sad", "RS", 32.0, "c"),
-                    new WeatherEntity("Beograd", "RS", 33.0, "c"),
-                    new WeatherEntity("Amsterdan", "NL", 33.0, "c"));
+                    new WeatherEntity("Novi Sad", "RS", TEMP),
+                    new WeatherEntity("Beograd", "RS",TEMP),
+                    new WeatherEntity("Amsterdan", "NL", TEMP));
 
 
     @Mock
@@ -59,6 +59,8 @@ public class WeatherServiceTest {
     public void shouldReturnWeatherEntity() throws NotFoundException {
         WeatherEntity weatherEntity = new WeatherEntity();
         weatherEntity.setCity(CITY);
+        weatherEntity.setCelsius(151.0);
+        weatherEntity.setFahrenheit(300.0);
         WeatherResponse response = new WeatherResponse();
         Sys sys = new Sys();
         Main main = new Main();
@@ -84,7 +86,7 @@ public class WeatherServiceTest {
         when(restTemplate.getForEntity("test", WeatherResponse.class)).thenReturn(responseEntity);
         when(repository.save(any())).thenReturn(new WeatherEntity());
 
-        Assertions.assertNotNull(service.getWeatherByCity(CITY, Units.FAHRENHEIT.getUnit()));
-        Assertions.assertNotNull(service.getWeatherByCity(CITY, Units.CELSIUS.getUnit()));
+        Assertions.assertNotNull(service.getWeatherByCity(CITY));
+        Assertions.assertNotNull(service.getWeatherByCity(CITY));
     }
 }

@@ -1,7 +1,9 @@
 package com.assignment.spring.controller;
 
 import com.assignment.spring.entity.WeatherEntity;
+import com.assignment.spring.mapper.WeatherMapper;
 import com.assignment.spring.service.WeatherService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -14,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -24,9 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class WeatherControllerTest {
     public static final List<WeatherEntity> WEATHER_ENTITIES = Arrays
             .asList(
-                    new WeatherEntity("Novi Sad", "RS", 32.0, "c"),
-                    new WeatherEntity("Beograd", "RS", 33.0, "c"),
-                    new WeatherEntity("Amsterdan", "NL", 33.0, "c"));
+                    new WeatherEntity("Novi Sad", "RS", 300.0),
+                    new WeatherEntity("Beograd", "RS", 330.0),
+                    new WeatherEntity("Amsterdan", "NL", 330.0));
 
     @MockBean
     private WeatherService service;
@@ -40,23 +43,16 @@ public class WeatherControllerTest {
         weatherEntity.setId(1);
         weatherEntity.setCity("Belgrade");
         weatherEntity.setCountry("RS");
-        weatherEntity.setTemperature(100.0);
+        weatherEntity.setFahrenheit(100.0);
 
-        when(service.getWeatherByCity(anyString(), anyString())).thenReturn(weatherEntity);
+        when(service.getWeatherByCity(anyString()))
+                .thenReturn(WeatherMapper.INSTANCE.entityToDto(weatherEntity));
 
         mvc.perform(MockMvcRequestBuilders.get("/weather?city=belgrade"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.city").value("Belgrade"))
                 .andExpect(jsonPath("$.country").value("RS"))
-                .andExpect(jsonPath("$.temperature").value(100.0));
+                .andExpect(jsonPath("$.fahrenheit").value(100.0));
     }
-
-    @Test
-    public void shouldGetWeathersByCountry() throws Exception {
-        when(service.getByName(anyString())).thenReturn(WEATHER_ENTITIES);
-        mvc.perform(MockMvcRequestBuilders.get("/country").param("country", "RS"))
-                .andExpect(status().isOk());
-    }
-
 }
